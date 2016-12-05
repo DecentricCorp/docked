@@ -1,0 +1,18 @@
+{
+  "name": "docked",
+  "version": "1.0.0",
+  "description": "API and Web Docker administration",
+  "main": "docked.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "docker-cli-js": "^2.1.1",
+    "express": "^4.14.0",
+    "nodegit": "^0.16.0",
+    "nodegit-clone": "^1.2.0",
+    "rmdir": "^1.2.0"
+  }
+}
