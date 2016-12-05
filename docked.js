@@ -35,9 +35,12 @@ app.get('/v1/logs/:id', function (req, res) {
 
 app.get('/v1/stop/:id', function (req, res) {
     var id = req.params.id
-    docker.command('stop ' + id ).then(function (result) {
-        res.json(result)
-    })    
+    docker.command('ps').then(function (running) {
+        var match = running.containerList.filter(function(container){return container.image === id || container["container id"] === id})
+        docker.command('stop ' + match[0]["container id"] ).then(function (result) {
+            res.json(result)
+        }) 
+    })       
 })
 
 app.get('/v1/state/:id', function (req, res) {
@@ -77,7 +80,8 @@ app.get('/v1/build/:method/:location/:org/:repo/:tag*?', function (req, res) {
                 console.log(dirs)
                 console.log(files)
                 console.log('all files are removed')
-                clone({url: repoEndpoint, localPath: "repos/"}).then(repo => {
+                console.log("err", err)
+                clone({url: repoEndpoint, localPath: "repos/"+tag}).then(repo => {
                     docker.command('build -t '+tag+' repos/'+tag+'/.').then(function (data) {
                         res.json({success: true, image: data})
                     })
